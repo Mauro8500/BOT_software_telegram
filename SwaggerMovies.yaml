@@ -19,7 +19,7 @@ schemes:
 - https
 - http
 paths:
-  /peliculas/create:
+  /peliculas/nuevo:
     post:
       tags:
       - peliculas
@@ -42,7 +42,7 @@ paths:
           description: post exitoso
         "400":
           description: solicitud invalida
-  /peliculas/actualizar:
+  /peliculas/1/mas:
     put:
       tags:
       - peliculas
@@ -66,7 +66,7 @@ paths:
           description: put exitoso
         "400":
           description: solicitud invalida
-  /peliculas/obtener:
+  /peliculas/archivo:
     get:
       tags:
       - peliculas
@@ -95,7 +95,7 @@ paths:
               $ref: '#/definitions/Pelicula'
         "400":
           description: solicitud invalida
-  /peliculas/obtener/nombre:
+  /peliculas/archivo/nombre:
     get:
       tags:
       - peliculas
@@ -124,7 +124,7 @@ paths:
               $ref: '#/definitions/Pelicula'
         "400":
           description: solicitud invalida
-  /peliculas/obtener/actor:
+  /peliculas/archivo/actor:
     get:
       tags:
       - peliculas
@@ -153,7 +153,7 @@ paths:
               $ref: '#/definitions/Pelicula'
         "400":
           description: solicitud invalida
-  /peliculas/obtener/premios:
+  /peliculas/archivo/premios:
     get:
       tags:
       - peliculas
@@ -182,7 +182,7 @@ paths:
               $ref: '#/definitions/Pelicula'
         "400":
           description: solicitud invalida
-  /peliculas/borrar:
+  /peliculas/1:
     delete:
       tags:
       - peliculas
@@ -202,7 +202,7 @@ paths:
           description: id invalido
         "404":
           description: Pelicula no encontrada
-  /clientes:
+  /clientes/1/nuevo:
     get:
       tags:
       - clientes
@@ -272,7 +272,7 @@ paths:
               $ref: '#/definitions/Cliente'
         "400":
           description: solicitud invalida
-  /clientes/borrar:
+  /clientes/1:
     delete:
       tags:
       - clientes
