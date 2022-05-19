@@ -1,0 +1,533 @@
+---
+swagger: "2.0"
+info:
+  description: Esta documentación se refiere a un sistema de reserva de peliculas
+  version: 1.0.0
+  title: Aplicacion web para reserva de peliculas
+host: virtserver.swaggerhub.com
+basePath: /juan.illanes/movies/1.0.0
+tags:
+- name: administrador
+  description: Operaciones de administrador
+- name: clientes
+  description: Operaciones de clientes
+- name: reservas
+  description: Operaciones de reservas
+- name: peliculas
+  description: Operaciones de peliculas
+schemes:
+- https
+- http
+paths:
+  /peliculas/create:
+    post:
+      tags:
+      - peliculas
+      summary: Agrega una Pelicula
+      description: Este endpoint agrega una nueva pelicula al catalogo y actualiza las tablas
+      operationId: postPelicula
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: objeto Pelicula
+        required: true
+        schema:
+          $ref: '#/definitions/Pelicula'
+      responses:
+        "200":
+          description: post exitoso
+        "400":
+          description: solicitud invalida
+  /peliculas/actualizar:
+    put:
+      tags:
+      - peliculas
+      summary: Actualizar estado y/o disponibilidad de una pelicula
+      description: El actualiza la disponibilidad de una pelicula y la muestra en tablas
+      operationId: putPelicula
+      consumes:
+      - application/json
+      produces:
+      - application/xml
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Objeto que incluye el id de una pelicula y el parametro de disponibilidad
+        required: true
+        schema:
+          $ref: '#/definitions/putPelicula'
+      responses:
+        "200":
+          description: put exitoso
+        "400":
+          description: solicitud invalida
+  /peliculas/obtener:
+    get:
+      tags:
+      - peliculas
+      summary: Recupera peliculas
+      description: El endpoint recupera todos las peliculas.
+      operationId: getPeliculas
+      produces:
+      - application/json
+      parameters:
+      - name: nombrePelicula
+        in: query
+        description: nombre de pelicula
+        required: false
+        type: string
+      - name: idPelicula
+        in: query
+        description: id de la pelicula
+        required: false
+        type: string
+      responses:
+        "200":
+          description: get exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pelicula'
+        "400":
+          description: solicitud invalida
+  /peliculas/obtener/nombre:
+    get:
+      tags:
+      - peliculas
+      summary: Recupera peliculas
+      description: El endpoint recupera todos las peliculas.
+      operationId: getPeliculasnombre
+      produces:
+      - application/json
+      parameters:
+      - name: nombrePelicula
+        in: query
+        description: nombre de pelicula
+        required: false
+        type: string
+      - name: idPelicula
+        in: query
+        description: id de la pelicula
+        required: false
+        type: string
+      responses:
+        "200":
+          description: get exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pelicula'
+        "400":
+          description: solicitud invalida
+  /peliculas/obtener/actor:
+    get:
+      tags:
+      - peliculas
+      summary: Recupera peliculas
+      description: El endpoint recupera todos las peliculas.
+      operationId: getPeliculasactor
+      produces:
+      - application/json
+      parameters:
+      - name: nombrePelicula
+        in: query
+        description: nombre de pelicula
+        required: false
+        type: string
+      - name: idPelicula
+        in: query
+        description: id de la pelicula
+        required: false
+        type: string
+      responses:
+        "200":
+          description: get exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pelicula'
+        "400":
+          description: solicitud invalida
+  /peliculas/obtener/premios:
+    get:
+      tags:
+      - peliculas
+      summary: Recupera peliculas
+      description: El endpoint recupera todos las peliculas.
+      operationId: getPeliculaspremios
+      produces:
+      - application/json
+      parameters:
+      - name: nombrePelicula
+        in: query
+        description: nombre de pelicula
+        required: false
+        type: string
+      - name: idPelicula
+        in: query
+        description: id de la pelicula
+        required: false
+        type: string
+      responses:
+        "200":
+          description: get exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pelicula'
+        "400":
+          description: solicitud invalida
+  /peliculas/borrar:
+    delete:
+      tags:
+      - peliculas
+      summary: Borrar pelicula del catalogo
+      description: Puede borrar una pelicula por su id
+      operationId: deleteMovie
+      produces:
+      - application/json
+      parameters:
+      - name: idPelicula
+        in: query
+        description: id de pelicula
+        required: true
+        type: string
+      responses:
+        "400":
+          description: id invalido
+        "404":
+          description: Pelicula no encontrada
+  /clientes:
+    get:
+      tags:
+      - clientes
+      summary: Recupera clientes
+      description: El endpoint busca todos los clientes. Tambien puede buscar a un cliente con su id. Para esto se debe mandar el id del cliente deseado como parametro de query
+      operationId: getClientes
+      produces:
+      - application/json
+      parameters:
+      - name: _id
+        in: query
+        description: id de cliente
+        required: false
+        type: string
+      responses:
+        "200":
+          description: get exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Cliente'
+        "400":
+          description: solicitud invalida
+    post:
+      tags:
+      - clientes
+      summary: Agrega un cliente
+      description: ""
+      operationId: postCliente
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: objeto Cliente
+        required: true
+        schema:
+          $ref: '#/definitions/Cliente'
+      responses:
+        "200":
+          description: post exitoso
+        "400":
+          description: solicitud invalida
+  /confirmacionclientes:
+    get:
+      tags:
+      - clientes
+      summary: Verifica un cliente
+      description: Este endpoint abilita a un cliente para realizar transacciones.
+      operationId: getConfirmacionClientes
+      produces:
+      - application/json
+      parameters:
+      - name: Mauricio
+        in: query
+        description: id de cliente
+        required: true
+        type: string
+      responses:
+        "200":
+          description: get exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Cliente'
+        "400":
+          description: solicitud invalida
+  /clientes/borrar:
+    delete:
+      tags:
+      - clientes
+      summary: Borra a un cliente
+      description: Puede borrar un cliente por su id
+      operationId: deleteUser
+      produces:
+      - application/json
+      parameters:
+      - name: idCliente
+        in: query
+        description: id de cliente
+        required: true
+        type: string
+      responses:
+        "200":
+          description: delete exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Cliente'
+        "400":
+          description: id invalido
+        "404":
+          description: Cliente no encontrada
+  /reservas/administrador:
+    get:
+      tags:
+      - reservas
+      summary: Obtiene lista de reservas
+      description: ""
+      operationId: getReserva
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        "200":
+          description: get exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Reserva'
+        "400":
+          description: No se encontraron reservas
+  /reservas/cliente:
+    post:
+      tags:
+      - reservas
+      summary: Añade una nueva reserva
+      description: ""
+      operationId: postReserva
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Reserva que se añade a la base de datos
+        required: true
+        schema:
+          $ref: '#/definitions/Reserva'
+      responses:
+        "400":
+          description: Invalid input
+  /administrador:
+    get:
+      tags:
+      - administrador
+      summary: Recupera Administradores
+      description: El endpoint busca todos los administradores, obteniendo su usuario y password
+      operationId: getAdministradores
+      produces:
+      - application/json
+      parameters:
+      - name: _id
+        in: query
+        description: id de Administrador
+        required: false
+        type: string
+      - name: ci
+        in: query
+        required: false
+        type: string
+      responses:
+        "200":
+          description: get exitoso
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Administrador'
+        "400":
+          description: solicitud invalida
+    post:
+      tags:
+      - administrador
+      summary: Agrega un administrador
+      description: ""
+      operationId: postAdm
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: objeto Admin
+        required: true
+        schema:
+          $ref: '#/definitions/Administrador'
+      responses:
+        "200":
+          description: post exitoso
+        "400":
+          description: solicitud invalida
+definitions:
+  Cliente:
+    type: object
+    required:
+    - apellido1
+    - idcliente
+    - nombre1
+    - repcontra
+    - usuario
+    properties:
+      idcliente:
+        type: string
+        example: "1"
+      nombre1:
+        type: string
+        example: Mauricio
+      apellido1:
+        type: string
+        example: Illanes
+      usuario:
+        type: string
+        example: mauro8500
+      password:
+        type: string
+      repcontra:
+        type: string
+  Pelicula:
+    type: object
+    required:
+    - Actor
+    - Descripcion
+    - Disponibilidad
+    - Precio
+    - Premios
+    - idPelicula
+    - nombrePelicula
+    properties:
+      idPelicula:
+        type: string
+        example: "1"
+      nombrePelicula:
+        type: string
+        example: Star Wars
+      Actor:
+        type: string
+        example: Mark Hammil
+      Premios:
+        type: number
+        example: 2.0
+      Descripcion:
+        type: string
+        example: En una galaxia muy muy lejana...
+      Precio:
+        type: number
+        example: 20.0
+      Disponibilidad:
+        type: number
+        example: 200.0
+  Reserva:
+    type: object
+    required:
+    - Descripcion
+    - Disponibilidad
+    - Precio
+    - Premios
+    - Tipo de pago
+    - idPelicula
+    - nombrePelicula
+    - numeroReservas
+    properties:
+      idPelicula:
+        type: string
+        example: "1"
+      nombrePelicula:
+        type: string
+        example: Star Wars
+      Descripcion:
+        type: string
+        example: En una galaxia muy muy lejana
+      Premios:
+        type: number
+        example: 2.0
+      Disponibilidad:
+        type: number
+        example: 200.0
+      numeroReservas:
+        type: number
+        example: 2.0
+      Precio:
+        type: number
+        example: 2.0
+      Tipo de pago:
+        type: string
+        example: Metodo de pago
+  putPelicula:
+    type: object
+    required:
+    - _id
+    properties:
+      _id:
+        type: string
+        example: "1"
+      nombrePelicula:
+        type: string
+        example: Star Wars
+      Actor:
+        type: string
+        example: Mark Hammil
+      Premios:
+        type: number
+        example: 2.0
+      Descripcion:
+        type: string
+        example: En una galaxia muy muy lejana...
+      Precio:
+        type: number
+        example: 20.0
+      Disponibilidad:
+        type: number
+        example: 200.0
+  Administrador:
+    type: object
+    required:
+    - apellido1
+    - apellido2
+    - ci
+    - nombre1
+    - password
+    properties:
+      nombre1:
+        type: string
+        example: Mauricio
+      apellido1:
+        type: string
+        example: Illanes
+      apellido2:
+        type: string
+        example: Chipana
+      password:
+        type: string
+      ci:
+        type: string
+        example: "6105591"
