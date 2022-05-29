@@ -1,4 +1,3 @@
----
 swagger: "2.0"
 info:
   description: Esta documentación se refiere a un sistema de reserva de peliculas
@@ -16,7 +15,7 @@ tags:
 schemes:
 - https
 paths:
-  /peliculas/titulo:
+  /peliculas/{titulo}:
     post:
       tags:
       - administrador
@@ -28,6 +27,10 @@ paths:
       produces:
       - application/json
       parameters:
+      - in: path
+        name: titulo
+        type: integer
+        required: true
       - in: body
         name: body
         description: objeto Pelicula
@@ -39,7 +42,6 @@ paths:
           description: post exitoso
         "400":
           description: solicitud invalida
-  /peliculas//{idtitulo}:
     put:
       tags:
       - administrador
@@ -50,10 +52,9 @@ paths:
       - application/json
       parameters:
       - in: path
-        name: idtitulo
-        description: id de la pelicula
+        name: titulo
+        type: integer
         required: true
-        type: number
       responses:
         "200":
           description: id encontrado
@@ -63,38 +64,26 @@ paths:
               $ref: '#/definitions/PeliculaNom'
         "400":
           description: solicitud invalida, id no encontrado
-    
-  /peliculas /{idpickups}:
-    get:
-      tags:
-      - administrador
-      summary: Recupera los pick ups que se tengan
-      description: Le muestra al administrador la cantidad de pick ups que tiene con descripciones especificas de cada una de las peliculas.
-      operationId: getPickUps
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: idpickups
-        description: id pick up
-        required: true
-        type: string
-      responses:
-        "200":
-          description: tiene pick ups
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/FormPick'
-        "400":
-          description: solicitud invalida, no se encontraron pick ups
-  /peliculas/all:
+  /peliculas:
     get:
       tags:
       - catalogo
       summary: Recupera peliculas
       description: El endpoint recupera todas las peliculas para mostrarla en el inicio de la pagina.
       operationId: getPeliculas
+      parameters:
+        - in: query
+          type: string
+          name: actor
+          description: Busqueda por actor
+        - in: query
+          type: string
+          name: titulo
+          description: Busqueda por titulo
+        - in: query
+          type: string
+          name: categoria
+          description: Busqueda por categoría
       produces:
       - application/json
       responses:
@@ -106,101 +95,10 @@ paths:
               $ref: '#/definitions/Pelicula'
         "400":
           description: solicitud invalida
-  /peliculas/  {nombre}:
-    get:
-      tags:
-      - catalogo
-      summary: Recupera peliculas
-      description: El endpoint recupera todos las peliculas dependiendo del nombre de una pelicula en especifico.
-      operationId: getPeliculasNombre
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: nombre
-        description: nombre de la pelicula
-        required: true
-        type: string
-      responses:
-        "200":
-          description: nombre encontrado
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/PeliculaNom'
-        "400":
-          description: solicitud invalida, nombre no encontrado
+
           
-  /peliculas/ {actor}:
-    get:
-      tags:
-      - catalogo
-      summary: Recupera peliculas
-      description: El endpoint recupera todos las peliculas por dependiendo de un actor en especifico.
-      operationId: getPeliculasActor
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: actor
-        description: Actor de la pelicula
-        required: true
-        type: string
-      responses:
-        "200":
-          description: actor encontrado
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/PeliculaAct'
-        "400":
-          description: solicitud invalida, actor no encontrado
-          
-  /peliculas/{categoria}:
-    get:
-      tags:
-      - catalogo
-      summary: Recupera peliculas
-      description: El endpoint recupera todos las peliculas por dependiendo de una categoria en especifico.
-      operationId: getPeliculasCategoria
-      produces:
-      - application/json
-      parameters:
-      - in: path
-        name: categoria
-        description: Categoria de la pelicula
-        required: true
-        type: string
-      responses:
-        "200":
-          description: categoria encontrada
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/PeliculaCate'
-        "400":
-          description: solicitud invalida, categoria no encontrada
-  /  peliculas/{idTitulo}:
-    delete:
-      tags:
-      - administrador
-      summary: borra peliculas
-      description: Borrar la cuenta
-      parameters: 
-        - in: path
-          name: idTitulo
-          required: true
-          description: Codigo del empleado
-          type: string
-      responses:
-        "200":
-          description: "Borrado exitodo"
-        "400":
-          description: "ID invalido"
-        "404":
-          description: "No se encontro la pelicula"
-      
-  /clientes/1/newcli:
+     
+  /clientes/me/cli:
     post:
       tags:
       - clientes
@@ -227,11 +125,11 @@ paths:
               $ref: '#/definitions/Clientes1'
         "400":
           description: solicitud invalida
-  /clientes/{auth}:
+  /{auth}:
     get:
       tags:
       - clientes
-      summary: Verifica un cliente
+      summary: Obtiene al cliente login
       description: Este endpoint abilita a un cliente autentifica al cliente para que empiece a realizar operaciones.
       operationId: getAuthCli
       produces:
@@ -323,10 +221,11 @@ definitions:
     type: object
     required:
     - NumReservas
-    - Precio
     - idPelicula
     - metodoTarjeta
     - efectivo
+    - cvc
+    - fechadecaducidad
     properties:
       idPelicula:
         type: number
@@ -334,12 +233,15 @@ definitions:
       NumReservas:
         type: number
         example: 2
-      Precio:
-        type: number
-        example: 15
       metodoTarjeta:
         type: number
         example: 21312874891
+      cvc:
+        type: number
+        example: 2
+      fechadecaducidad:
+        type: string
+        example: 20/23
       efectivo:
         type: string
         example: "null"
